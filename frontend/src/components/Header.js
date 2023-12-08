@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 function Header({stateCallback}) {
 
-  const [email, setEmail] = useState(window.globalVars.account._email);
-
   function shopClick() {
     stateCallback(0);
   }

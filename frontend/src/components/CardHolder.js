@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 
 function CardHolder() {
-  const [fireworks, setFireworks] = useState([]);
+  const [shopData, setShopData] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:8000/shopdata')
       .then(res => res.json())
       .then(data => {
-        const d = data.fireworkData.filter(i => i.type === 'firework');
-        window.globalVars.shopData = d;
-        setFireworks(d);
+        setShopData(data);
       })
       .catch(err => {
         console.log('Error loading shop data:');
@@ -18,15 +16,15 @@ function CardHolder() {
       });
   }, []);
 
-  if (fireworks.length === 0) {
-    return <h1 className='text-light'>Loading...</h1>;
+  if (shopData.length === 0) {
+    return <h1 className='text-dark'>Loading...</h1>;
   }
 
   return (
     <>
       {
-        fireworks.map((f, index) => (
-          <Card key={f.productid} data={f}/>
+        shopData.map((f, index) => (
+          <Card key={f.id} data={f}/>
         ))
       }
     </>
