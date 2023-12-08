@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { trySendCart } from './tryLogin';
+import React, { useState } from 'react';
 import Header from './components/Header';
 import CardHolder from './components/CardHolder';
-import Cart from './components/Cart';
 import About from './components/About';
-import Login from './components/Login';
+import Add from './components/Add';
+import Update from './components/Update';
+import Delete from './components/Delete';
 
-const STATE_SHOP = 0;
-const STATE_CHECKOUT = 1;
-const STATE_ABOUT = 2;
+const STATE_READ = 0;
+const state_ADD = 1;
+const STATE_UPDATE = 2;
+const STATE_DELET = 3;
+const STATE_ABOUT = 4;
 
 function App() {
   const [state, setState] = useState(0);
@@ -18,7 +20,16 @@ function App() {
       <Header stateCallback={setState}/>
       <div id="page">
         {
-          state==STATE_SHOP && <CardHolder/>
+          state==STATE_READ && <CardHolder/>
+        }
+        {
+          state==state_ADD && <Add/>
+        }
+        {
+          state==STATE_UPDATE && <Update/>
+        }
+        {
+          state==STATE_DELET && <Delete/>
         }
         {
           state==STATE_ABOUT && <About/>
