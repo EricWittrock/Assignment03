@@ -17,7 +17,7 @@ function CardHolder() {
   }, []);
 
   if (shopData.length === 0) {
-    return <h1 className='text-dark'>Loading...</h1>;
+    return <h2 className='text-dark'>Loading... You may not have anything in your database</h2>;
   }
 
   return (

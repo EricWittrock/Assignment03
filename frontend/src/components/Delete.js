@@ -46,7 +46,7 @@ function Delete() {
   return (
     <div style={{width:"100%"}}>
       <h1>Delete</h1>
-      <div className="input-group justify-content-center" style={{padding:"10px"}}>
+      <div className="input-group justify-content-center">
         <select className="custom-select" id="inputGroupSelectDelete" style={{width:"300px"}}>
           <option value={-1}>Choose ID...</option>
           {
