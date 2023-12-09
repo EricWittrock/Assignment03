@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import Card from './Card';
 
 function Delete() {
   const [shopData, setShopData] = useState([]);
+  const [selectedId, setSelectedId] = useState(-1);
 
   useState(() => {
     fetch('http://localhost:8000/shopdata')
@@ -16,8 +18,7 @@ function Delete() {
   }, []);
 
   function deleteClick() {
-    let id = document.getElementById("inputGroupSelectDelete").value;
-    if(id == -1) {
+    if(selectedId == -1) {
       window.alert("please select an id");
       return;
     }
@@ -26,7 +27,7 @@ function Delete() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({id: id}),
+      body: JSON.stringify({id: selectedId}),
     }).then(res => res.json())
     .then(data => {
       console.log(data);
@@ -43,11 +44,17 @@ function Delete() {
     });
   }
 
+  function selectChange() {
+    let id = document.getElementById("inputGroupSelectDelete").value;
+    setSelectedId(id);
+    console.log("selected id: " + id);
+  }
+
   return (
     <div style={{width:"100%"}}>
       <h1>Delete</h1>
       <div className="input-group justify-content-center">
-        <select className="custom-select" id="inputGroupSelectDelete" style={{width:"300px"}}>
+        <select className="custom-select" id="inputGroupSelectDelete" style={{width:"300px"}} onChange={selectChange}>
           <option value={-1}>Choose ID...</option>
           {
             shopData.map((f, index) => (
@@ -61,6 +68,10 @@ function Delete() {
           </button>
         </div>
       </div>
+      <div style={{height:"50px"}}></div>
+      {
+        shopData[selectedId] && <Card key={selectedId+"_deleteCard"} data={shopData[selectedId]}/>
+      }
     </div>
   );
 }
