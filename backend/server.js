@@ -109,8 +109,8 @@ app.post("/addItem/", async (req, res) =>{
     const category = req.body.category;
     const imgUrl = req.body.image;
     const id = req.body.id;
-    const ratingNum = req.body.rating.rate;
-    const ratingCount = req.body.rating.count;
+    const ratingNum = req.body.ratingNum;
+    const ratingCount = req.body.ratingCount;
 
     const results = await collection.find({id:id}).toArray();
     if(results.length != 0) {
