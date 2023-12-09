@@ -20,8 +20,6 @@ app.use(bodyParser.json());
 // user makes request for the list of shop items
 app.get('/shopdata', async (req, res) => {
     const results = await collection.find({}).toArray();
-    console.log("shopdata!s");
-    console.log(results);
     res.json(results);
 });
 
@@ -88,8 +86,18 @@ app.post('/register', async (req, res) => {
     // res.json({success: true, email: email, session: sessId});
 });
 
-app.delete("/deleteAccount/", async (req, res) => {
-    // TODO
+app.delete("/deleteItem/", async (req, res) => {
+    const id = req.body.id*1;
+    console.log("request to delete item with id: " + id);
+    // check if item exists
+    const results = await collection.find({id:id}).toArray();
+    if(results.length == 0) {
+        res.json({success: false, error: "No item with that id exists"});
+        return;
+    }
+    console.log("deleting item...");
+    await collection.deleteOne({"id":id});
+    res.json({success: true});
 });
 
 app.put("/updateCart/", async (req, res) => {
