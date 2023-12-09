@@ -100,6 +100,43 @@ app.delete("/deleteItem/", async (req, res) => {
     res.json({success: true});
 });
 
+app.post("/addItem/", async (req, res) =>{
+    console.log("addItem");
+    console.log(req.body);
+    const name = req.body.title;
+    const price = req.body.price;
+    const description = req.body.description;
+    const category = req.body.category;
+    const imgUrl = req.body.image;
+    const id = req.body.id;
+    const ratingNum = req.body.rating.rate;
+    const ratingCount = req.body.rating.count;
+
+    const results = await collection.find({id:id}).toArray();
+    if(results.length != 0) {
+        res.json({success: false, error: "An item with that id already exists"});
+        return;
+    }
+
+    const newItem = {
+        title: name,
+        price: price,
+        description: description,
+        category: category,
+        image: imgUrl,
+        id: id,
+        rating: {
+            rate: ratingNum,
+            count: ratingCount
+        }
+    };
+
+    await collection.insertOne(newItem);
+    console.log("Added new item with ID: " + id);
+
+    res.json({ success: true, message: "Item added successfully", newItem: newItem });
+});
+
 app.put("/updateCart/", async (req, res) => {
     console.log("updateCart");
     console.log(req.body);
