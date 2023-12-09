@@ -74,7 +74,7 @@ app.post("/addItem/", async (req, res) =>{
     res.json({ success: true, message: "Item added successfully", newItem: newItem });
 });
 
-app.put("/updateItem", async (req, res) => {
+app.put("/updatePrice", async (req, res) => {
     console.log("updateItem");
     console.log(req.body);
 

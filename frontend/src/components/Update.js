@@ -23,7 +23,7 @@ function Update() {
     // const description = document.getElementById('prodDesc').value;
     // const category = document.getElementById('prodCategory').value;
     // const imgUrl = document.getElementById('imgUrl').value;
-    const id = document.getElementById("prodID").value;
+    const id = document.getElementById("inputGroupSelectUpdate").value;
     // const ratingNum = document.getElementById('prodRating').value;
     // const ratingCount = document.getElementById('ratingCount').value;
     console.log("price: " + price)
@@ -52,6 +52,7 @@ function Update() {
         console.log(data);
         if (data.success) {
           window.alert("Price updated");
+          window.location.reload();
         } else if (data.error) {
           window.alert("Unable to update price. " + data.error);
         } else {
