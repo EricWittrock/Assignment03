@@ -4,6 +4,7 @@ import Card from './Card';
 function Delete() {
   const [shopData, setShopData] = useState([]);
   const [selectedId, setSelectedId] = useState(-1);
+  const [selectedData, setSelectedData] = useState(undefined);
 
   useState(() => {
     fetch('http://localhost:8000/shopdata')
@@ -46,7 +47,12 @@ function Delete() {
 
   function selectChange() {
     let id = document.getElementById("inputGroupSelectDelete").value;
+    let sd = shopData.find(i=>i.id==id);
     setSelectedId(id);
+    setSelectedData(sd);
+    console.log(shopData);
+    console.log(sd);
+    console.log(selectedData);
     console.log("selected id: " + id);
   }
 
@@ -70,7 +76,7 @@ function Delete() {
       </div>
       <div style={{height:"50px"}}></div>
       {
-        shopData[selectedId] && <Card key={selectedId+"_deleteCard"} data={shopData[selectedId]}/>
+        selectedData && <Card key={selectedId+"_deleteCard"} data={selectedData}/>
       }
     </div>
   );
