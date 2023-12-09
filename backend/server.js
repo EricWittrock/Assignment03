@@ -103,12 +103,12 @@ app.delete("/deleteItem/", async (req, res) => {
 app.post("/addItem/", async (req, res) =>{
     console.log("addItem");
     console.log(req.body);
-    const name = req.body.title;
+    const name = req.body.name;
     const price = req.body.price;
     const description = req.body.description;
     const category = req.body.category;
-    const imgUrl = req.body.image;
-    const id = req.body.id;
+    const imgUrl = req.body.imgUrl;
+    const id = req.body.id*1;
     const ratingNum = req.body.ratingNum;
     const ratingCount = req.body.ratingCount;
 
