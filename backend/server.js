@@ -79,13 +79,7 @@ app.put("/updateItem", async (req, res) => {
     console.log(req.body);
 
     const id = req.body.id * 1;
-    const name = req.body.name;
     const price = req.body.price;
-    const description = req.body.description;
-    const category = req.body.category;
-    const imgUrl = req.body.imgUrl;
-    const ratingNum = req.body.ratingNum;
-    const ratingCount = req.body.ratingCount;
 
     const results = await collection.find({ id: id }).toArray();
     if (results.length === 0) {
@@ -94,19 +88,11 @@ app.put("/updateItem", async (req, res) => {
     }
 
     const updatedItem = {
-        title: name,
         price: price,
-        description: description,
-        category: category,
-        image: imgUrl,
-        id: id,
-        rating: {
-            rate: ratingNum,
-            count: ratingCount
-        }
+        id: id
     };
 
-    await collection.updateOne({ id: id }, { $set: updatedItem });
+    await collection.updateOne({ id: id }, { $set: { price: price } });
     console.log("Updated item with ID: " + id);
 
     res.json({ success: true, message: "Item updated successfully", updatedItem: updatedItem });
