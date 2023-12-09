@@ -8,7 +8,7 @@ function Card({data}) {
         <div className="container-fluid no-gutters">
             <div className={"shop-row row" + (hover ? " hover" : "")}>
                 <div className="col-3">
-                    <img className="dimImage" src={data.image} alt = "Firework1"/>
+                    <img className="dimImage" src={data.image} alt = "Invalid image URL"/>
                 </div>
                 <div className="col-9">
                     <h2 className="text-white">{data.title}, ID: {data.id}</h2>

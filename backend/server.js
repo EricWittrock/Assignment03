@@ -23,69 +23,6 @@ app.get('/shopdata', async (req, res) => {
     res.json(results);
 });
 
-
-app.post('/login', async (req, res) => {
-    // const email = req.body.email;
-    // const password = req.body.password;
-    // const passHash = hashPassword(password);
-
-    // const results = await collection.find({"email":email}).toArray();
-
-    // if(results.length == 0) {
-    //     res.json({success: false, error: "No account with that email exists"});
-    //     return;
-    // }
-
-    // if(results[0].password != passHash) {
-    //     res.json({success: false, error: "Incorrect password"});
-    //     return;
-    // }
-
-    // const sessId = randSessionId();
-    // await collection.updateOne({email:email},{$set:{session:sessId}})
-    // res.json({success: true, email: email, session: sessId});
-});
-
-app.post('/sessionLogin', async (req, res) => {
-    // const sess = req.body.session;
-    // const results = await collection.find({"session":sess}).toArray();
-
-    // if(results.length == 0) {
-    //     res.json({success: false});
-    //     return;
-    // }
-
-    // res.json({success: true, email: results[0].email});
-});
-
-// user makes request to create new account
-app.post('/register', async (req, res) => {
-    // const email = req.body.email;
-    // const password = req.body.password;
-    // const passHash = hashPassword(password);
-
-    // const results = await collection.find({"email":email}).toArray();
-
-    // if(results.length != 0) {
-    //     res.json({success: false, error: "An account already exists with that email"});
-    //     return;
-    // }
-
-    // const sessId = randSessionId();
-    // const newUser = {
-    //     email: email,
-    //     password: passHash,
-    //     session: sessId,
-    //     cart: {}
-    // };
-    // await collection.insertOne(newUser);
-
-    // console.log("register with email: " + email + " and password: " + password);
-    // console.log("Hashed password: " + passHash);
-
-    // res.json({success: true, email: email, session: sessId});
-});
-
 app.delete("/deleteItem/", async (req, res) => {
     const id = req.body.id*1;
     console.log("request to delete item with id: " + id);
@@ -137,22 +74,42 @@ app.post("/addItem/", async (req, res) =>{
     res.json({ success: true, message: "Item added successfully", newItem: newItem });
 });
 
-app.put("/updateCart/", async (req, res) => {
-    console.log("updateCart");
+app.put("/updateItem", async (req, res) => {
+    console.log("updateItem");
     console.log(req.body);
-    await collection.updateOne({session:req.body.session},{$set:{cart:req.body.cart}});
-    res.json({success: true});
-});
 
-app.post("/getCart/", async (req, res) => {
-    console.log("getCart");
-    const results = await collection.find({"session":req.body.session}).toArray();
-    if(results.length == 0) {
-        res.json({success: false});
-        console.log("getCart failed");
+    const id = req.body.id * 1;
+    const name = req.body.name;
+    const price = req.body.price;
+    const description = req.body.description;
+    const category = req.body.category;
+    const imgUrl = req.body.imgUrl;
+    const ratingNum = req.body.ratingNum;
+    const ratingCount = req.body.ratingCount;
+
+    const results = await collection.find({ id: id }).toArray();
+    if (results.length === 0) {
+        res.json({ success: false, error: "No item with that id exists" });
         return;
     }
-    res.json({success: true, cart: results[0].cart});
+
+    const updatedItem = {
+        title: name,
+        price: price,
+        description: description,
+        category: category,
+        image: imgUrl,
+        id: id,
+        rating: {
+            rate: ratingNum,
+            count: ratingCount
+        }
+    };
+
+    await collection.updateOne({ id: id }, { $set: updatedItem });
+    console.log("Updated item with ID: " + id);
+
+    res.json({ success: true, message: "Item updated successfully", updatedItem: updatedItem });
 });
 
 (async ()=>{
